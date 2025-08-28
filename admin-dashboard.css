@@ -1,0 +1,204 @@
+/* ==============================
+   ADMIN DASHBOARD MAIN STYLES
+   ============================== */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  margin: 0;
+  background: #f4f7f9;
+  color: #333;
+}
+
+header {
+  background: #007bff;
+  color: #fff;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.system-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+.admin-name {
+  margin-left: 15px;
+  font-size: 15px;
+  opacity: 0.9;
+}
+.logout-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+.logout-btn:hover {
+  background: #b52a38;
+}
+
+main {
+  padding: 25px;
+}
+
+
+/* ==============================
+   TABLE STYLES
+   ============================== */
+.table-container {
+  overflow-x: auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead {
+  background: #007bff;
+  color: #fff;
+}
+thead th {
+  padding: 10px;
+  text-align: left;
+}
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+tbody tr:hover {
+  background: #f1f8ff;
+}
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn.edit { background: #007bff; color: #fff; }
+.btn.edit:hover { background: #0056b3; }
+.btn.delete { background: #dc3545; color: #fff; }
+.btn.delete:hover { background: #b52a38; }
+.btn.save { background: #28a745; color: #fff; font-weight: 600; }
+.btn.save:hover { background: #218838; }
+
+/* ==============================
+   MODAL STYLES
+   ============================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.65);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 95%;
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  animation: slideDown 0.3s ease;
+}
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+.close-btn {
+  position: absolute;
+  top: 12px; right: 16px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: bold;
+  color: #666;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #000;
+}
+.form-group {
+  margin-bottom: 14px;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #444;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0,123,255,0.4);
+}
+.btn.save {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #28a745;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.btn.save:hover {
+  background: #218838;
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+   ============================== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-name {
+    display: block;
+    margin-left: 0;
+    margin-top: 6px;
+  }
+  table {
+    font-size: 13px;
+  }
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+/* Animation for modal */
+@keyframes slideDown {
+  from { transform: translateY(-25px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
