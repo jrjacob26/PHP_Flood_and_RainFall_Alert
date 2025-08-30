@@ -52,12 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
             $_SESSION['username']  = $user['username'];
             $_SESSION['role']      = $user['role'];
 
-            if ($user['role'] == "Admin") {
+            if ($user['role'] == "Barangay Official") {
                 $successRedirect = "admin-dashboard.php";
             } else {
                 $loginMessage = "📲 Your number is now registered to the 🌊 BahaShield Alert System.";
 
-                if ($user['role'] == "Responder") {
+                if ($user['role'] == "Resident") {
                     $successRedirect = "login.php";
                 } elseif ($user['role'] == "Barangay Official") {
                     $successRedirect = "login.php";
@@ -136,10 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
         <label for="role">Role</label>
         <select name="role" required>
           <option value="" disabled selected>Select your role</option>
-          <option value="Resident">Resident</option>
-          <option value="Admin">Admin</option>
-          <option value="Responder">Responder</option>
           <option value="Barangay Official">Barangay Official</option>
+          <option value="Resident">Resident</option>
         </select>
       </div>
 

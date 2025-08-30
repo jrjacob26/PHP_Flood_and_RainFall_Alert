@@ -130,13 +130,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="role">Role</label>
         <select name="role" required>
           <option value="" disabled selected>Select your role</option>
-          <option value="Resident">Resident</option>
-          <option value="Admin">Admin</option>
-          <option value="Responder">Responder</option>
           <option value="Barangay Official">Barangay Official</option>
+          <option value="Resident">Resident</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="address">Address</label>
         <input type="text" name="address" placeholder="Enter your address" required>
