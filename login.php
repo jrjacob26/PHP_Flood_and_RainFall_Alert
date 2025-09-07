@@ -52,18 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
             $_SESSION['username']  = $user['username'];
             $_SESSION['role']      = $user['role'];
 
+            // ✅ Insert user into alert_recipients (with username)
+            $stmt2 = $conn->prepare("
+                INSERT IGNORE INTO alert_recipients (user_id, username, phone_number, role) 
+                VALUES (?, ?, ?, ?)
+            ");
+            $stmt2->bind_param("isss", $user['id'], $user['username'], $user['number'], $user['role']);
+            $stmt2->execute();
+            $stmt2->close();
+
             if ($user['role'] == "Barangay Official") {
+                $loginMessage = "📲 Barangay Official number registered to the 🌊 BahaShield Alert System.";
                 $successRedirect = "admin-dashboard.php";
             } else {
                 $loginMessage = "📲 Your number is now registered to the 🌊 BahaShield Alert System.";
-
-                if ($user['role'] == "Resident") {
-                    $successRedirect = "login.php";
-                } elseif ($user['role'] == "Barangay Official") {
-                    $successRedirect = "login.php";
-                } else {
-                    $successRedirect = "login.php";
-                }
+                $successRedirect = "login.php";
             }
         } else {
             // ❌ Wrong password
@@ -86,6 +89,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
     $stmt->close();
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

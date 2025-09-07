@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 07:29 PM
+-- Generation Time: Aug 30, 2025 at 07:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,10 +45,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `role`, `address`, `purok`, `number`, `password`, `created_at`) VALUES
-(1, 'Admin2', 'admin2', 'admin2@gmail.com', 'Admin', 'Cabangan Daraga Albay', '1', '09123456789', '$2y$10$Spdp41As/jGKsmDCHS7cOeVlKrzZPAQ8eqDVXqbAyP5/eRXREEYme', '2025-08-28 17:02:54'),
-(2, 'Admin1', 'admin1', 'admin1@gmail.com', 'Admin', 'Cabangan Daraga Albay', '6', '09123456788', '$2y$10$h1ZGaNkdI62f6f9SrKOMau7djJO/.MT8bUFccJgq5HwWVPWPDM6C2', '2025-08-28 17:04:03'),
-(3, 'Resident', 'resident', 'resident@gmail.com', 'Resident', 'Cabangan Daraga Albay', '2', '09123456787', '$2y$10$iNLRPQPePVbkzq3kTOOOKerbnaat5ZaZV0zJmFj5yVYVGKHsac8Ei', '2025-08-28 17:05:00'),
-(5, 'Admin3', 'admin3', 'admin3@gmail.com', 'Admin', '', '10', '09123456786', '$2y$10$j8LXF3pIMBwoP1m.ynFWxOpKhyW2NGbnBvQ2YHnClNUisXkNsVAgC', '2025-08-28 17:28:57');
+(3, 'Resident2', 'resident2', 'resident2@gmail.com', 'Resident', 'Cabangan Daraga Albay', '2', '09123456787', '$2y$10$iNLRPQPePVbkzq3kTOOOKerbnaat5ZaZV0zJmFj5yVYVGKHsac8Ei', '2025-08-28 17:05:00'),
+(6, 'Barangay Official1', 'brgy.official1', 'brgy.official1@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '5', '09123456785', '$2y$10$IY9GkeT5z9dAw4aHIxpRLunH9E1jhXMO7Wle3kUxMoRtXaLy7cKQC', '2025-08-28 17:32:21'),
+(7, 'Resident1', 'resident1', 'resident1@gmail.com', 'Resident', 'Cabangan Daraga Albay', '1', '09123456784', '$2y$10$sKs3SJo0/m0p7mdP2jVsYulhbgOdlw7Kd/Y7tc2K0K14hEwXeYd9C', '2025-08-30 04:43:26'),
+(8, 'Barangay Official2', 'brgy.official2', 'barangayofficial2@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '6', '09123456783', '$2y$10$ey31deQ9fEXH4FSV5wKaoeNmy2ppvbvyFa8UXGCcLkCXzAjOZPMia', '2025-08-30 04:45:02'),
+(10, 'Resident3', 'resident3', 'resident3@gmail.com', 'Resident', 'Cabangan Daraga Albay', '7', '09123456781', '$2y$10$hb7/Lt1XLzqf6kOnjQQ.0e1TBZsmtKRJ17wCWij4xjlJKtf9UlASe', '2025-08-30 15:42:02');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +72,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
