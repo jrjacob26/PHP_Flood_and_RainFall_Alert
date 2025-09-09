@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     $stmt = $conn->prepare("INSERT INTO users (fullname, username, email, number, role, purok, password, created_at, email_verified, verification_token) 
                             VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), 0, ?)");
-    $stmt->bind_param("sssssis", $fullname, $username, $email, $number, $role, $purok, $password, $verification_token);
+    $stmt->bind_param("sssssiss", $fullname, $username, $email, $number, $role, $purok, $password, $verification_token);
 
     if ($stmt->execute()) {
         echo "<script>alert('✅ User added successfully!'); 
@@ -369,6 +369,12 @@ $newThisMonth = $newThisMonthQuery->fetch_assoc()['total'];
     .badge { display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px }
     .badge.green { background:#e6f7e9;color:#127a2a;border:1px solid #bfe8c7 }
     .badge.gray { background:#f2f3f5;color:#555;border:1px solid #e1e3e6 }
+
+    #email-message {
+  width: 100%;
+  min-height: 150px;  /* taller */
+  resize: vertical;   /* allow user to drag resize */
+}
   </style>
 </head>
 <body>
@@ -542,7 +548,7 @@ $newThisMonth = $newThisMonthQuery->fetch_assoc()['total'];
         <div class="form-group">
           <label>Purok</label>
           <select name="purok" id="edit-purok" required>
-            <?php for ($i=1; $i<=10; $i++) { ?>
+            <?php for ($i=1; $i<=8; $i++) { ?>
               <option value="<?php echo $i; ?>">Purok <?php echo $i; ?></option>
             <?php } ?>
           </select>
@@ -573,7 +579,7 @@ $newThisMonth = $newThisMonthQuery->fetch_assoc()['total'];
 
         <div class="form-group">
           <label>Message </label>
-          <textarea name="message" id="email-message" rows="8" placeholder=""></textarea>
+          <textarea name="message" id="email-message" rows="12" placeholder=""></textarea>
         </div>
 
         <button type="submit" class="btn save">Send Email</button>

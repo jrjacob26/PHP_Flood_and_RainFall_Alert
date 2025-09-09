@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
     $email    = $_POST['email'];
     $username = $_POST['username'];
-    $role     = $_POST['role'];
     $address  = $_POST['address'];
     $purok    = $_POST['purok'];
     $number   = $_POST['number']; // 📱 new number field
@@ -60,9 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($message)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("INSERT INTO users (fullname, username, email, role, address, purok, number, password) 
+            $stmt = $conn->prepare("INSERT INTO users (fullname, username, email, address, purok, number, password) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssss", $fullname, $username, $email, $role, $address, $purok, $number, $hashedPassword);
+            $stmt->bind_param("ssssssss", $fullname, $username, $email, $address, $purok, $number, $hashedPassword);
 
             if ($stmt->execute()) {
                 $success = true;
@@ -80,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registration - BahaShield</title>
+  <title>BahaShield - Resident Registration</title>
   <link rel="stylesheet" href="register.css">
   <style>
     .password-container {
@@ -103,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <div class="container">
     <h1 class="system-title">🌊 BahaShield</h1> <br>
-    <h2>Create Account</h2>
+    <h2>Resident Account Registration</h2>
 
     <!-- Show error message -->
     <?php if (!empty($message)): ?>
@@ -126,14 +125,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="username" placeholder="Choose a username" required>
       </div>
 
-      <div class="form-group">
-        <label for="role">Role</label>
-        <select name="role" required>
-          <option value="" disabled selected>Select your role</option>
-          <option value="Barangay Official">Barangay Official</option>
-          <option value="Resident">Resident</option>
-        </select>
-      </div>
       <div class="form-group">
         <label for="address">Address</label>
         <input type="text" name="address" placeholder="Enter your address" required>
