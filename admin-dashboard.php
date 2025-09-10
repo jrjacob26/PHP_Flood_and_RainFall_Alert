@@ -517,7 +517,7 @@ $newThisMonth = $newThisMonthQuery->fetch_assoc()['total'];
         <div class="form-group">
           <label>Purok</label>
           <select name="purok" required>
-            <?php for ($i=1; $i<=10; $i++) { ?>
+            <?php for ($i=1; $i<=8; $i++) { ?>
               <option value="<?php echo $i; ?>">Purok <?php echo $i; ?></option>
             <?php } ?>
           </select>

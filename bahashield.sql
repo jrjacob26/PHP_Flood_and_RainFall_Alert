@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 04:47 PM
+-- Generation Time: Sep 09, 2025 at 07:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,7 +46,10 @@ INSERT INTO `alert_recipients` (`id`, `user_id`, `username`, `phone_number`, `ro
 (4, 15, '', '09123456778', 'Resident', '2025-09-02 17:19:19'),
 (5, 16, 'brgy.official4', '09123456777', 'Barangay Official', '2025-09-02 17:23:37'),
 (8, 6, 'brgy.official1', '09123456785', 'Barangay Official', '2025-09-06 07:38:55'),
-(10, 17, 'jacob26', '09566757100', 'Resident', '2025-09-06 08:09:21');
+(10, 17, 'jacob26', '09566757100', 'Resident', '2025-09-06 08:09:21'),
+(16, 8, 'brgy.official2', '09123456783', 'Barangay Official', '2025-09-09 06:39:11'),
+(17, 20, 'Zed', '0976152608', 'Barangay Official', '2025-09-09 06:56:41'),
+(19, 10, 'resident3', '09123456781', 'Resident', '2025-09-09 16:53:56');
 
 -- --------------------------------------------------------
 
@@ -82,9 +85,13 @@ INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `role`, `address`, `
 (10, 'Resident3', 'resident3', 'resident3@gmail.com', 'Resident', 'Cabangan Daraga Albay', '7', '09123456781', '$2y$10$hb7/Lt1XLzqf6kOnjQQ.0e1TBZsmtKRJ17wCWij4xjlJKtf9UlASe', '2025-08-30 15:42:02', 0, NULL, NULL),
 (13, 'Resident4', 'resident4', 'resident4@gmail.com', 'Resident', 'Cabangan Daraga Albay', '1', '09123456780', '$2y$10$HP9IUi/W.WspoEJQZMqe6u/5zytnpY6ucJ5vVBmysQjfi9f8H2nsi', '2025-09-02 17:07:58', 0, NULL, NULL),
 (14, 'Barangay Official3', 'brgy.official3', 'barangayofficial3@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '5', '09123456779', '$2y$10$Ji4Rl0tbhmuwpAkqMcrU6eK6VrEyTHK9RocvERK20ifEpyrozlHwa', '2025-09-02 17:15:46', 0, NULL, NULL),
-(15, 'Resident5', 'resident5', 'resident5@gmail.com', 'Resident', 'Cabangan Daraga Albay', '5', '09123456778', '$2y$10$L/cHXsOtwOTf6sa9owTA5uusPAyT6YcOYC0L19c9rbRGrar4PBwjq', '2025-09-02 17:19:10', 0, NULL, NULL),
+(15, 'Resident5', 'resident5', 'resident5@gmail.com', 'Resident', 'Cabangan Daraga Albay', '5', '09123456778', '$2y$10$L/cHXsOtwOTf6sa9owTA5uusPAyT6YcOYC0L19c9rbRGrar4PBwjq', '2025-09-02 17:19:10', 1, NULL, '8128533d182230d7245bf05edd85cddc0e81138df732d512eadbff702696054b'),
 (16, 'Barangay Official4', 'brgy.official4', 'barangayofficial4@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '3', '09123456777', '$2y$10$ts1VrjSaZY0FOC0wfP2/X.VdWF7u14rYTzULE8JmIE2JhkOTMmhqS', '2025-09-02 17:23:28', 1, NULL, '5c0add28aa43cbab2aec2072f073e365b9520cad27db22e0e05331717d337532'),
-(17, 'Christopher M. Jacob Jr', 'jacob26', 'christopherjacob305@gmail.com', 'Resident', 'Cabangan Daraga Albay', '4', '09566757100', '$2y$10$E6pSFupPWGqJtVThwssAk.2IJxCz7EOuvrcsHHoeEpNJM3uzTJxuO', '2025-09-06 08:09:09', 1, NULL, 'c78af16c7bdf1d978c023e188ae5616f00c9104fd365928173b56a59c485bbea');
+(17, 'Christopher M. Jacob Jr', 'jacob26', 'christopherjacob305@gmail.com', 'Resident', 'Cabangan Daraga Albay', '4', '09566757100', '$2y$10$E6pSFupPWGqJtVThwssAk.2IJxCz7EOuvrcsHHoeEpNJM3uzTJxuO', '2025-09-06 08:09:09', 1, NULL, 'c78af16c7bdf1d978c023e188ae5616f00c9104fd365928173b56a59c485bbea'),
+(18, 'Resident6', 'resident6', 'resident6@gmail.com', 'Resident', '', '6', '09123456769', '$2y$10$m05qxmy1p6IutEMM7IlZe.CVCVHmne31I.5GmMdnLRlZAnGiyBpV2', '2025-09-08 13:03:29', 0, NULL, '650aa3f290e452f2fb0182d3bd17e0f8a9e9aead4ea1c4b40afce1c8479d9489'),
+(19, 'Barangay Official6', 'brgy.official6', 'brgy.official6@gmail.com', 'Barangay Official', '', '8', '09123456712', '$2y$10$GDiwuzWqkf0662NwfZRnfeYsvLV5wTQ1GIsxFH8ELqqfjgyJch9tW', '2025-09-08 13:04:09', 0, NULL, 'c0c5bea28e8bf9237851b45f90a04000c28502bd7cbc0a5bb78d7779e14a008c'),
+(20, 'superadmin', 'Zed', 'xzeddo.x@gmail.com', 'Barangay Official', 'Daraga Albay', '1', '0976152608', '$2y$10$BB6tuoXHNs9bN0J5koJbQOiVg3ZZUv3LDIsMV6M2CX.Qt4OGJq/dm', '2025-09-09 06:55:20', 1, NULL, '50b7f017e85659f4a1f7a39c445aad3ece25ddb570f6787e4cf2ab881b1732b4'),
+(21, 'Barangay Official7', 'brgy.official7', 'barangayofficial7@gmail.com', 'Barangay Official', '', '', '09566757109', '$2y$10$ozYAE9BJl2CvnbwuN1gt8uup/GJalzAj6yISbTvsWhrdOJD37.VNG', '2025-09-09 16:52:13', 0, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -114,13 +121,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alert_recipients`
 --
 ALTER TABLE `alert_recipients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
