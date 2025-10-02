@@ -1,0 +1,24 @@
+2025-09-29T14:05:24+08:00 | sent=0 failed=1
+[]
+
+2025-09-29T14:08:37+08:00 | sent=1 failed=0
+[{"bulkId":"17591261163877919061994","messages":[{"messageId":"17591261163877919061995","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"9566757100"}]}]
+
+2025-09-29T14:11:20+08:00 | sent=1 failed=0
+[{"bulkId":"17591262795017951982892","messages":[{"messageId":"17591262795017951982893","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"9566757100"}]}]
+
+2025-09-29T14:11:39+08:00 | sent=1 failed=0
+[{"bulkId":"17591262988847919063545","messages":[{"messageId":"17591262988847919063546","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"09566757100"}]}]
+
+2025-09-29T14:20:54+08:00 | sent=1 failed=0
+[{"bulkId":"17591268522307919135101","messages":[{"messageId":"17591268522307919135102","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"09566757100"}]}]
+
+2025-09-29T14:23:11+08:00 | sent=1 failed=0
+[{"bulkId":"17591269903497951466362","messages":[{"messageId":"17591269903497951466363","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"+639566757100"}]}]
+
+2025-09-29T14:24:09+08:00 | sent=1 failed=0
+[{"bulkId":"17591270466457951466689","messages":[{"messageId":"17591270466457951466690","status":{"groupId":1,"groupName":"PENDING","id":26,"name":"PENDING_ACCEPTED","description":"Message sent to next instance"},"destination":"+639566757100"}]}]
+
+2025-09-29T16:57:46+08:00 | sent=0 failed=1
+[]
+

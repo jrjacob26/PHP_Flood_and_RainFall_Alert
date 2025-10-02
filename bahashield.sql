@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 07:13 PM
+-- Generation Time: Oct 02, 2025 at 10:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,20 +36,74 @@ CREATE TABLE `alert_recipients` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `alert_recipients`
+-- Table structure for table `flood_history`
 --
 
-INSERT INTO `alert_recipients` (`id`, `user_id`, `username`, `phone_number`, `role`, `created_at`) VALUES
-(1, 13, '', '09123456780', '', '2025-09-02 17:08:19'),
-(2, 14, '', '09123456779', 'Barangay Official', '2025-09-02 17:17:58'),
-(4, 15, '', '09123456778', 'Resident', '2025-09-02 17:19:19'),
-(5, 16, 'brgy.official4', '09123456777', 'Barangay Official', '2025-09-02 17:23:37'),
-(8, 6, 'brgy.official1', '09123456785', 'Barangay Official', '2025-09-06 07:38:55'),
-(10, 17, 'jacob26', '09566757100', 'Resident', '2025-09-06 08:09:21'),
-(16, 8, 'brgy.official2', '09123456783', 'Barangay Official', '2025-09-09 06:39:11'),
-(17, 20, 'Zed', '0976152608', 'Barangay Official', '2025-09-09 06:56:41'),
-(19, 10, 'resident3', '09123456781', 'Resident', '2025-09-09 16:53:56');
+CREATE TABLE `flood_history` (
+  `id` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `rainfall` int(11) NOT NULL,
+  `flood` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `message` text NOT NULL,
+  `channel` varchar(20) NOT NULL,
+  `status` varchar(50) DEFAULT 'pending',
+  `response` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sensor_data`
+--
+
+CREATE TABLE `sensor_data` (
+  `id` int(11) NOT NULL,
+  `water_level` float NOT NULL,
+  `rainfall` float NOT NULL,
+  `recorded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscribers`
+--
+
+CREATE TABLE `subscribers` (
+  `id` int(11) NOT NULL,
+  `phone` varchar(32) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `subscribed` tinyint(1) DEFAULT 1,
+  `unsubscribe_token` varchar(64) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subscribers`
+--
+
+INSERT INTO `subscribers` (`id`, `phone`, `name`, `subscribed`, `unsubscribe_token`, `created_at`) VALUES
+(1, '9566757100', NULL, 1, 'cdffe9531fed3f3e64a9dc6d4c1bd45d', '2025-09-29 14:05:22'),
+(5, '09566757100', NULL, 1, 'dd58cb4c5cbcad6c866fd31002497d5c', '2025-09-29 14:11:38'),
+(8, '+639566757100', NULL, 1, '018135e7e7b976c4c7dfd1d3557a6811', '2025-09-29 14:23:10');
 
 -- --------------------------------------------------------
 
@@ -60,7 +114,6 @@ INSERT INTO `alert_recipients` (`id`, `user_id`, `username`, `phone_number`, `ro
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `fullname` varchar(150) NOT NULL,
-  `username` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
   `role` enum('Resident','Admin','Responder','Barangay Official') DEFAULT 'Resident',
   `address` varchar(255) NOT NULL,
@@ -70,28 +123,25 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `email_verified` tinyint(1) NOT NULL DEFAULT 0,
   `email_verified_at` datetime DEFAULT NULL,
-  `verification_token` varchar(64) DEFAULT NULL
+  `verification_token` varchar(64) DEFAULT NULL,
+  `unsubscribe_token` varchar(64) DEFAULT NULL,
+  `subscribed` tinyint(1) DEFAULT 1,
+  `otp` varchar(255) DEFAULT NULL,
+  `otp_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `role`, `address`, `purok`, `number`, `password`, `created_at`, `email_verified`, `email_verified_at`, `verification_token`) VALUES
-(3, 'Resident2', 'resident2', 'resident2@gmail.com', 'Resident', 'Cabangan Daraga Albay', '2', '09123456787', '$2y$10$iNLRPQPePVbkzq3kTOOOKerbnaat5ZaZV0zJmFj5yVYVGKHsac8Ei', '2025-08-28 17:05:00', 0, NULL, NULL),
-(6, 'Barangay Official1', 'brgy.official1', 'brgy.official1@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '5', '09123456785', '$2y$10$IY9GkeT5z9dAw4aHIxpRLunH9E1jhXMO7Wle3kUxMoRtXaLy7cKQC', '2025-08-28 17:32:21', 0, NULL, NULL),
-(7, 'Resident1', 'resident1', 'resident1@gmail.com', 'Resident', 'Cabangan Daraga Albay', '1', '09123456784', '$2y$10$sKs3SJo0/m0p7mdP2jVsYulhbgOdlw7Kd/Y7tc2K0K14hEwXeYd9C', '2025-08-30 04:43:26', 0, NULL, NULL),
-(8, 'Barangay Official2', 'brgy.official2', 'barangayofficial2@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '6', '09123456783', '$2y$10$ey31deQ9fEXH4FSV5wKaoeNmy2ppvbvyFa8UXGCcLkCXzAjOZPMia', '2025-08-30 04:45:02', 0, NULL, NULL),
-(10, 'Resident3', 'resident3', 'resident3@gmail.com', 'Resident', 'Cabangan Daraga Albay', '7', '09123456781', '$2y$10$hb7/Lt1XLzqf6kOnjQQ.0e1TBZsmtKRJ17wCWij4xjlJKtf9UlASe', '2025-08-30 15:42:02', 0, NULL, NULL),
-(13, 'Resident4', 'resident4', 'resident4@gmail.com', 'Resident', 'Cabangan Daraga Albay', '1', '09123456780', '$2y$10$HP9IUi/W.WspoEJQZMqe6u/5zytnpY6ucJ5vVBmysQjfi9f8H2nsi', '2025-09-02 17:07:58', 0, NULL, NULL),
-(14, 'Barangay Official3', 'brgy.official3', 'barangayofficial3@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '5', '09123456779', '$2y$10$Ji4Rl0tbhmuwpAkqMcrU6eK6VrEyTHK9RocvERK20ifEpyrozlHwa', '2025-09-02 17:15:46', 0, NULL, NULL),
-(15, 'Resident5', 'resident5', 'resident5@gmail.com', 'Resident', 'Cabangan Daraga Albay', '5', '09123456778', '$2y$10$L/cHXsOtwOTf6sa9owTA5uusPAyT6YcOYC0L19c9rbRGrar4PBwjq', '2025-09-02 17:19:10', 1, NULL, '8128533d182230d7245bf05edd85cddc0e81138df732d512eadbff702696054b'),
-(16, 'Barangay Official4', 'brgy.official4', 'barangayofficial4@gmail.com', 'Barangay Official', 'Cabangan Daraga Albay', '3', '09123456777', '$2y$10$ts1VrjSaZY0FOC0wfP2/X.VdWF7u14rYTzULE8JmIE2JhkOTMmhqS', '2025-09-02 17:23:28', 1, NULL, '5c0add28aa43cbab2aec2072f073e365b9520cad27db22e0e05331717d337532'),
-(17, 'Christopher M. Jacob Jr', 'jacob26', 'christopherjacob305@gmail.com', 'Resident', 'Cabangan Daraga Albay', '4', '09566757100', '$2y$10$E6pSFupPWGqJtVThwssAk.2IJxCz7EOuvrcsHHoeEpNJM3uzTJxuO', '2025-09-06 08:09:09', 1, NULL, 'c78af16c7bdf1d978c023e188ae5616f00c9104fd365928173b56a59c485bbea'),
-(18, 'Resident6', 'resident6', 'resident6@gmail.com', 'Resident', '', '6', '09123456769', '$2y$10$m05qxmy1p6IutEMM7IlZe.CVCVHmne31I.5GmMdnLRlZAnGiyBpV2', '2025-09-08 13:03:29', 0, NULL, '650aa3f290e452f2fb0182d3bd17e0f8a9e9aead4ea1c4b40afce1c8479d9489'),
-(19, 'Barangay Official6', 'brgy.official6', 'brgy.official6@gmail.com', 'Barangay Official', '', '8', '09123456712', '$2y$10$GDiwuzWqkf0662NwfZRnfeYsvLV5wTQ1GIsxFH8ELqqfjgyJch9tW', '2025-09-08 13:04:09', 0, NULL, 'c0c5bea28e8bf9237851b45f90a04000c28502bd7cbc0a5bb78d7779e14a008c'),
-(20, 'superadmin', 'Zed', 'xzeddo.x@gmail.com', 'Barangay Official', 'Daraga Albay', '1', '0976152608', '$2y$10$BB6tuoXHNs9bN0J5koJbQOiVg3ZZUv3LDIsMV6M2CX.Qt4OGJq/dm', '2025-09-09 06:55:20', 1, NULL, '50b7f017e85659f4a1f7a39c445aad3ece25ddb570f6787e4cf2ab881b1732b4'),
-(21, 'Barangay Official7', 'brgy.official7', 'barangayofficial7@gmail.com', 'Barangay Official', '', '', '09566757109', '$2y$10$ozYAE9BJl2CvnbwuN1gt8uup/GJalzAj6yISbTvsWhrdOJD37.VNG', '2025-09-09 16:52:13', 0, NULL, NULL);
+INSERT INTO `users` (`id`, `fullname`, `email`, `role`, `address`, `purok`, `number`, `password`, `created_at`, `email_verified`, `email_verified_at`, `verification_token`, `unsubscribe_token`, `subscribed`, `otp`, `otp_expiry`) VALUES
+(33, 'Admin1', 'admin1@gmail.com', 'Barangay Official', '', '', '09123456787', '$2y$10$tmtNY6Y57cWYbAwJJXRd2eyjdIUk7gwzCbGvur5kKcVsHju7LRNTG', '2025-09-20 17:17:00', 0, NULL, NULL, NULL, 1, NULL, NULL),
+(37, 'Christopher M. Jacob Jr', '07207169@dwc-legazpi.edu', 'Barangay Official', '', '1', '09566757100', '$2y$10$igUdbP0xRIl/I8hNh7a6FeGrb5WBKxlOnyPDjsBj.lpCdVL3xsOn6', '2025-09-20 17:29:50', 1, NULL, 'a97dca293a1eed49a48b5cbc25c17ca52a6ff010f19966f826283a594764930d', NULL, 1, NULL, NULL),
+(38, 'Christopher M. Jacob Jr', 'christopherjacob305@gmail.com', 'Barangay Official', '', '', '09123456123', '$2y$10$j88B0qhR62guFiLmm1Q4r.YRAHT4snDmRXbb.B8b6SjRrRTtenYnC', '2025-09-20 17:48:38', 1, NULL, 'd35c33ae3d9efc945bdb9b108facc3c31b100b9d361b4d023941be47c1db5c2c', NULL, 1, '$2y$10', '2025-09-21 02:12:17'),
+(39, 'Resident3', 'resident3@gmail.com', 'Resident', '', '1', '09123456781', '$2y$10$/Bz97oKYmvKscmrYO2CMuOlMrypzViq9jUd9yLam2UOURzye/9ixS', '2025-09-28 16:47:55', 0, NULL, '8f68944bb010e28e3bab47dee7cdd7c34d73964aeacdf9d6afd4fa19729124b2', NULL, 1, NULL, NULL),
+(40, 'Resident2', 'resident2@gmail.com', 'Resident', '', '6', '09123456780', '$2y$10$lyo00idathwzOaNfFti0eeXK6pYW5Soa3NW5WuG9mssSY7rFtb0iC', '2025-09-28 18:43:25', 0, NULL, '69e8622a8bc61c6593f4eae8a9a402968534524277d5fca97a378c9ee1a5e38d', '3d2474952c3de26fde2268baade39d12', 1, NULL, NULL),
+(41, 'Resident1', 'resident1@gmail.com', 'Resident', '', '1', '09123456783', '$2y$10$fHvqsC/YYPcCnC8RSW0xneqYPl3ow8pS996zhJLFfdbZfiFAUhGXi', '2025-09-28 18:44:10', 0, NULL, 'c89f4a734c83d8e1cdc55f085112a5d60a8312072227958044b25d20c294d05e', 'd365b3dc53339a03e77ce917229a8213', 1, NULL, NULL),
+(42, 'Resident4', 'resident4@gmail.com', 'Resident', '', '5', '09123456790', '$2y$10$7Tqjz6bkIwPTjzTtrVS1Tuq39kncHcUWG5xtcPJaQ83qbZ2UYRXxG', '2025-09-29 05:25:05', 0, NULL, 'f09beca5ebb6f5aa6997d977d999b04aa5497ccef229980635613cc53450e400', '148545a7b5aec8f223f266930d107592', 1, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -105,13 +155,39 @@ ALTER TABLE `alert_recipients`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `flood_history`
+--
+ALTER TABLE `flood_history`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `sensor_data`
+--
+ALTER TABLE `sensor_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone` (`phone`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `number` (`number`);
+  ADD UNIQUE KEY `number` (`number`),
+  ADD UNIQUE KEY `unsubscribe_token` (`unsubscribe_token`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -121,13 +197,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alert_recipients`
 --
 ALTER TABLE `alert_recipients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `flood_history`
+--
+ALTER TABLE `flood_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sensor_data`
+--
+ALTER TABLE `sensor_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Constraints for dumped tables
@@ -138,6 +238,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `alert_recipients`
   ADD CONSTRAINT `alert_recipients_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

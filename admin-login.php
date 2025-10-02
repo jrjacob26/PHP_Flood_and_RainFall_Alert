@@ -1,17 +1,25 @@
 <?php
+// admin-login.php
+session_set_cookie_params([
+  'lifetime' => 0,
+  'path' => '/',
+  'domain' => $_SERVER['HTTP_HOST'],
+  'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+  'httponly' => true,
+  'samesite' => 'Strict'
+]);
 session_start();
-include 'db_connect.php';
+
+require_once 'db_connect.php';
+require_once 'send_otp_mail.php';
 
 $message = "";
-$successRedirect = "";
-$loginMessage = "";
 
-// Initialize attempts
+// Login attempt limits (session-based)
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
     $_SESSION['last_attempt_time'] = 0;
 }
-
 $lock_time = 10; 
 $max_attempts = 5;
 
@@ -25,32 +33,54 @@ if ($_SESSION['login_attempts'] >= $max_attempts) {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role     = "Barangay Official"; // 🔒 Only Admins allowed
+if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($message)) {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $role = "Barangay Official";
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND role=? LIMIT 1");
-    $stmt->bind_param("ss", $username, $role);
+    $stmt = $conn->prepare("SELECT id, fullname, email, password, role FROM users WHERE email=? AND role=? LIMIT 1");
+    $stmt->bind_param("ss", $email, $role);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
+    if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password'])) {
-            $_SESSION['login_attempts'] = 0;
-            $_SESSION['user_id']   = $user['id'];
-            $_SESSION['fullname']  = $user['fullname'];
-            $_SESSION['username']  = $user['username'];
-            $_SESSION['role']      = $user['role'];
+            // Generate secure 6-digit OTP
+            $otp_plain = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $otp_hash = password_hash($otp_plain, PASSWORD_DEFAULT);
+            $expiry = date("Y-m-d H:i:s", time() + 300); // 5 minutes
 
-            $loginMessage = "📲 Barangay Official registered to the 🌊 BahaShield Admin Panel.";
-            $successRedirect = "admin-dashboard.php";
+            // 🔎 Debug log for testing
+            error_log("OTP for {$user['email']} = $otp_plain, expiry = $expiry");
+
+            // Save hashed OTP and expiry to DB
+            $update = $conn->prepare("UPDATE users SET otp=?, otp_expiry=? WHERE id=?");
+            $update->bind_param("ssi", $otp_hash, $expiry, $user['id']);
+            $ok = $update->execute();
+            $update->close();
+
+            if (!$ok) {
+                $message = "⚠️ Server error. Try again later.";
+            } else {
+                // Send OTP email
+                $sent = sendOtpMail($user['email'], $user['fullname'], $otp_plain);
+                if (!$sent) {
+                    $message = "⚠️ Couldn't send OTP email. Check SMTP settings.";
+                } else {
+                    // Store pending login info and redirect to OTP page
+                    $_SESSION['pending_user_id'] = $user['id'];
+                    $_SESSION['otp_last_sent'] = time();
+                    $_SESSION['otp_attempts'] = 0;
+                    header("Location: verify-otp.php");
+                    exit();
+                }
+            }
         } else {
             $_SESSION['login_attempts']++;
             $_SESSION['last_attempt_time'] = time();
-            $remaining_attempts = $max_attempts - $_SESSION['login_attempts'];
+            $remaining_attempts = max(0, $max_attempts - $_SESSION['login_attempts']);
             $message = $remaining_attempts > 0 ? 
                 "❌ Incorrect password! You have $remaining_attempts attempt(s) left." :
                 "⛔ Too many failed attempts. Please wait $lock_time seconds.";
@@ -60,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
         $_SESSION['last_attempt_time'] = time();
         $message = "❌ Admin not found!";
     }
-    $stmt->close();
+    if (isset($stmt)) $stmt->close();
 }
 ?>
 
@@ -70,104 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BahaShield - Admin Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #004e92, #000428);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0px 6px 20px rgba(0,0,0,0.3);
-      width: 350px;
-      text-align: center;
-    }
-    .system-title {
-      font-size: 26px;
-      font-weight: bold;
-      color: #004e92;
-      margin-bottom: 10px;
-    }
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .form-group {
-      margin-bottom: 15px;
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-      color: #333;
-    }
-    input {
-      width: 94%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      outline: none;
-      transition: 0.3s;
-    }
-    input:focus {
-      border-color: #004e92;
-    }
-    .password-container {
-      position: relative;
-    }
-    .password-container input {
-      padding-right: 10px;
-    }
-    .toggle-password {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 18px;
-    }
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background: #004e92;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #003366;
-    }
-    .lock-msg {
-      color: red;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    .register-link {
-      margin-top: 15px;
-      display: block;
-      font-size: 14px;
-      color: #004e92;
-      text-decoration: none;
-    }
-    .register-link:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="admin-login.css">
 </head>
 <body>
   <div class="container">
-    <h1 class="system-title">🌊 BahaShield</h1>
     <h2>Admin Login</h2>
 
     <?php if (!empty($message)): ?>
@@ -176,8 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
 
     <form method="POST" action="">
       <div class="form-group">
-        <label for="username">Admin Username</label>
-        <input type="text" name="username" placeholder="Enter your username" required>
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
       </div>
 
       <div class="form-group">
@@ -194,20 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($message)) {
       </button>
     </form>
 
-    <a href="admin-register.php" class="register-link">➕ Register New Admin</a>
+    <p class="register-link">Don't have an account? <a href="admin-register.php">Register</a></p>
   </div>
-
-  <?php if (!empty($successRedirect) && empty($loginMessage)): ?>
-  <script>
-    alert("✅ Login successful! Redirecting...");
-    window.location.href = "<?php echo $successRedirect; ?>";
-  </script>
-  <?php elseif (!empty($loginMessage)): ?>
-  <script>
-    alert("<?php echo $loginMessage; ?>");
-    window.location.href = "<?php echo $successRedirect; ?>";
-  </script>
-  <?php endif; ?>
 
   <script>
     function togglePassword() {

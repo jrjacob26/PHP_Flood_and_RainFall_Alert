@@ -12,26 +12,10 @@ include 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id       = intval($_POST['id']);
     $fullname = trim($_POST['fullname']);
-    $username = trim($_POST['username']);
     $email    = trim($_POST['email']);
     $number   = trim($_POST['number']);
     $role     = trim($_POST['role']);
     $purok    = intval($_POST['purok']);
-
-    // ✅ Check for duplicate username
-    $checkUser = $conn->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
-    $checkUser->bind_param("si", $username, $id);
-    $checkUser->execute();
-    $checkUser->store_result();
-    if ($checkUser->num_rows > 0) {
-        echo "<script>
-                alert('⚠️ Username already exists! Please choose another.');
-                window.location.href = 'admin-dashboard.php';
-              </script>";
-        $checkUser->close();
-        exit();
-    }
-    $checkUser->close();
 
     // ✅ Check for duplicate email
     $checkEmail = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
@@ -63,15 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $checkNumber->close();
 
-    // ✅ If no duplicates, proceed with update
-    $stmt = $conn->prepare("UPDATE users SET fullname=?, username=?, email=?, number=?, role=?, purok=? WHERE id=?");
-    $stmt->bind_param("ssssssi", $fullname, $username, $email, $number, $role, $purok, $id);
+    // ✅ Update without username
+    $stmt = $conn->prepare("UPDATE users SET fullname=?, email=?, number=?, role=?, purok=? WHERE id=?");
+    $stmt->bind_param("ssssii", $fullname, $email, $number, $role, $purok, $id);
 
     if ($stmt->execute()) {
         // If current logged-in user updated their own record, update session too
         if ($_SESSION['user_id'] == $id) {
             $_SESSION['fullname'] = $fullname;
-            $_SESSION['username'] = $username;
             $_SESSION['email']    = $email;
             $_SESSION['number']   = $number;
             $_SESSION['role']     = $role;

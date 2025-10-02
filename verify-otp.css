@@ -1,0 +1,114 @@
+/* admin-login.css */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #004080, #001f40);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container Card */
+.container {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Title */
+.container h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+/* Messages */
+.lock-msg {
+  background: #ffeaea;
+  color: #c53030;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  border: 1px solid #f5c2c7;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 11px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #fff;
+}
+
+/* Verify button (blue) */
+.btn:not([name="resend"]) {
+  background: #0d6efd;
+}
+.btn:not([name="resend"]):hover {
+  background: #0b5ed7;
+}
+
+/* Resend button (red) */
+.btn[name="resend"] {
+  background: #dc3545;
+}
+.btn[name="resend"]:hover {
+  background: #bb2d3b;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

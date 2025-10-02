@@ -24,7 +24,7 @@
     /* Header */
     header {
       display: flex;
-      justify-content: space-between;
+      justify-content: left;
       align-items: center;
       background: linear-gradient(135deg, #007bff, #0056b3);
       color: white;
@@ -46,20 +46,26 @@
       opacity: 0.9;
     }
 
-    /* Logout button */
-    .logout-btn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s ease;
-    }
-    .logout-btn:hover {
-      background: #c82333;
-    }
+    .logout-form {
+  padding: 15px 20px;
+  margin-top: 20px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
 
     /* Controls (Search + Filter + Add) */
     .controls {
@@ -301,4 +307,62 @@
         font-size: 14px;
         padding: 9px;
       }
+
     }
+    .badge { display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px }
+    .badge.green { background:#e6f7e9;color:#127a2a;border:1px solid #bfe8c7 }
+    .badge.gray { background:#f2f3f5;color:#555;border:1px solid #e1e3e6 }
+
+    #email-message {
+  width: 100%;
+  min-height: 150px;  /* taller */
+  resize: vertical;   /* allow user to drag resize */
+}
+
+/* Menu Icon */
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  padding: 10px;
+}
+
+/* Sidebar (hidden by default) */
+#sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  background: linear-gradient(180deg, #0056b3, #003d80);
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  z-index: 2000;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+}
+
+/* Sidebar links */
+#sidebar a {
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  display: block;
+  transition: 0.2s;
+  border-left: 3px solid transparent;
+}
+
+#sidebar a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 3px solid #00d4ff;
+}
+
+/* Close button (X) */
+#sidebar .closebtn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+}
