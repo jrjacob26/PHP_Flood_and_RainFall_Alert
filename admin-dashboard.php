@@ -130,6 +130,7 @@ if (isset($_GET['water']) && isset($_GET['rain'])) {
   <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a> <br>
   <a href="flood_history.php">📊 Flood & Rainfall History</a>
   <a href="analytics.php">📈 Analytics</a>
+  <a href="sensor_data.php">📡 Sensor Data</a>
   <a href="send_message.php">💬 Send SMS</a>
 
   <!-- ✅ Logout -->
