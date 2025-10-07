@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         // ✅ If running on localhost, show success alert
                         if ($_SERVER['HTTP_HOST'] === 'localhost') {
-                            echo "<script>alert('✅ Successfully logged in'); window.location.href='admin-dashboard.php';</script>";
+                            echo "<script>alert('✅ Successfully logged in'); window.location.href='sensor_data.php';</script>";
                             exit();
                         } else {
                             header("Location: admin-dashboard.php");

@@ -113,30 +113,358 @@ if (isset($_GET['water']) && isset($_GET['rain'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BahaShield - Admin Dashboard</title>
-  <link rel="stylesheet" href="admin-dashboard.css">
+  <style>
+      /* ================================
+   🌊 BahaShield - Unified Admin Dashboard CSS
+   Matches sensor.php header + logout style
+=================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: #f5f6fa;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ✅ Header — SAME AS sensor.php */
+header {
+      background: #2563eb;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+.menu-icon {
+  font-size: 22px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.system-title {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.admin-name {
+  font-weight: bold;
+}
+
+/* ✅ Logout Button — MATCHES sensor.php */
+.logout-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+  background: white;
+  color: #2563eb;
+}
+
+/* ✅ Sidebar */
+#sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      background-color: #1e3a8a;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+}
+
+#sidebar a, #sidebar button {
+  padding: 10px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      color: white;
+      display: block;
+      transition: 0.2s;
+      background: none;
+      border: none;
+      text-align: left;
+      width: 100%;
+}
+
+#sidebar a:hover, #sidebar button:hover {
+  background-color: #2563eb;
+}
+
+#sidebar .closebtn {
+  position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+}
+
+/* ✅ Main Content */
+main {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  
+}
+
+/* ✅ Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.controls-left {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+}
+
+select {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* ✅ Buttons */
+button, .btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 7px 12px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.add-btn {
+  background: #0096c7;
+  color: white;
+}
+
+.add-btn:hover {
+  background: #0077b6;
+}
+
+.btn.save {
+  background: #2b9348;
+  color: white;
+}
+
+.btn.save:hover {
+  background: #1b7034;
+}
+
+.btn.edit {
+  background: #0077b6;
+  color: white;
+}
+
+.btn.edit:hover {
+  background: #005f91;
+}
+
+.btn.delete {
+  background: #d62828;
+  color: white;
+}
+
+.btn.delete:hover {
+  background: #b51e1e;
+}
+
+.btn.export {
+  background: #555;
+  color: white;
+}
+
+.btn.export:hover {
+  background: #333;
+}
+
+/* ✅ Table */
+.table-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
+}
+
+th {
+  background-color: #f0f2f5;
+  color: #333;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ✅ Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  color: white;
+}
+
+.badge.green { background: #2b9348; }
+.badge.red   { background: #d62828; }
+.badge.gray  { background: #999; }
+
+/* ✅ Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+  color: #023e8a;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ Analytics Cards */
+.analytics > div {
+  transition: transform 0.2s;
+}
+
+.analytics > div:hover {
+  transform: translateY(-3px);
+}
+  </style>
 </head>
 <body>
 <header>
-  <!-- ✅ Menu Icon (Hamburger) -->
-  <div class="menu-icon" onclick="toggleMenu()">☰</div>
   <div class="header-left">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <h1 class="system-title">🌊 BahaShield</h1>
-    <span class="admin-name">Welcome, <?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
   </div>
+  <span class="admin-name">Welcome, <?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
 </header>
 
-<!-- ✅ Sidebar Menu -->
+<!-- ✅ Sidebar -->
 <div id="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a> <br>
+  <span class="closebtn" onclick="toggleMenu()">×</span>
+  <a href="admin-dashboard.php">👤 User Management</a>
   <a href="flood_history.php">📊 Flood & Rainfall History</a>
-  <a href="analytics.php">📈 Analytics</a>
-  <a href="sensor_data.php">📡 Sensor Data</a>
+  <a href="sensor_data.php" class="active">📡 Sensor Data & Analytics</a>
   <a href="send_message.php">💬 Send SMS</a>
-
-  <!-- ✅ Logout -->
-  <form method="POST" action="logout.php" class="logout-form">
-    <button type="submit" class="logout-btn">🚪 Logout</button>
+  <form method="POST" action="logout.php" onsubmit="return confirm('Logout?');">
+    <button type="submit">🚪 Logout</button>
   </form>
+</div>
+
+<script>
+function confirmLogout() {
+    return confirm("⚠️ Are you sure you want to logout?");
+}
+</script>
 </div>
 
 <main>
