@@ -3,7 +3,7 @@ session_start();
 
 // Only allow Admins
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
-    header("Location: login.php");
+    header("Location: admin-login.php");
     exit();
 }
 

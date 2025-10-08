@@ -3,7 +3,7 @@ session_start();
 
 // Only Barangay Officials (Admin) can update
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
-    header("Location: login.php");
+    header("Location: admin-login.php");
     exit();
 }
 
