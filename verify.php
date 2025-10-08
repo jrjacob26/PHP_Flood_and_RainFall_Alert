@@ -29,7 +29,7 @@ $update = $conn->prepare("UPDATE users SET email_verified = 1, email_verified_at
 $update->bind_param("i", $id);
 
 if ($update->execute()) {
-    echo "<script>alert('✅ Email verified successfully! You can now log in.');window.location='login.php';</script>";
+    echo "<script>alert('Email verified successfully! You can now log in.');window.location='login.php';</script>";
 } else {
-    echo "<script>alert('❌ Verification failed.');window.location='login.php';</script>";
+    echo "<script>alert('Verification failed.');window.location='login.php';</script>";
 }

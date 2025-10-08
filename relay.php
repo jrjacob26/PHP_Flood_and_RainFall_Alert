@@ -2,7 +2,7 @@
 // relay.php
 // Relay incoming HTTP request from SIM800L to your secure HTTPS backend
 
-// ✅ Change this to your actual ngrok HTTPS URL + sensor_data.php path
+//  Change this to your actual ngrok HTTPS URL + sensor_data.php path
 $target = "http://stercoricolous-piper-mossiest.ngrok-free.dev/Flood_and_RainFall_System/sensor_data.php";
 
 // Collect all GET/POST parameters sent by SIM800L
@@ -19,7 +19,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
-// ⚠️ Disable SSL verification (ok for ngrok demo, not safe for production)
+//  Disable SSL verification (ok for ngrok demo, not safe for production)
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 

@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// ✅ Only allow Barangay Officials
+//  Only allow Barangay Officials
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
     header("Location: login.php");
     exit();
@@ -14,9 +14,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
   <meta charset="UTF-8">
   <title>Flood & Rainfall History - BahaShield</title>
   <style>
-/* 🌊 BahaShield - Flood & Rainfall History Page CSS */
+/*  BahaShield - Flood & Rainfall History Page CSS */
 
-/* ✅ Global Reset */
+/*  Global Reset */
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +29,7 @@ body {
   min-height: 100vh;
 }
 
-/* ✅ Header (same as sensor_data.php) */
+/*  Header (same as sensor_data.php) */
 header {
       background: #2563eb;
       color: white;
@@ -64,7 +64,7 @@ header {
   font-weight: bold;
 }
 
-/* ✅ Sidebar */
+/*  Sidebar */
 #sidebar {
   height: 100%;
   width: 0;
@@ -106,7 +106,7 @@ header {
   cursor: pointer;
 }
 
-/* ✅ Main Content */
+/* Main Content */
 main {
   max-width: 1100px;
   margin: 20px auto;
@@ -119,7 +119,7 @@ main h2 {
   
 }
 
-/* ✅ Card Section */
+/*  Card Section */
 .content-card {
   background: #fff;
   border-radius: 10px;
@@ -134,7 +134,7 @@ main h2 {
   text-align: center;
 }
 
-/* ✅ Table Styling */
+/*  Table Styling */
 .modern-table {
   width: 100%;
   border-collapse: collapse;
@@ -162,7 +162,7 @@ main h2 {
   font-size: 0.95rem;
 }
 
-/* ✅ Status Badges */
+/*  Status Badges */
 .status {
   display: inline-block;
   padding: 5px 10px;
@@ -184,7 +184,7 @@ main h2 {
   background-color: #d62828; /* Red */
 }
 
-/* ✅ Responsive */
+/*  Responsive */
 @media (max-width: 600px) {
   .modern-table th,
   .modern-table td {
@@ -196,7 +196,7 @@ main h2 {
 </head>
 <body>
 
-<!-- ✅ Top Header -->
+<!--  Top Header -->
 <header>
   <div class="header-left">
     <div class="menu-icon" onclick="toggleMenu()">☰</div>
@@ -205,7 +205,7 @@ main h2 {
   <span class="admin-name">Welcome, <?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
 </header>
 
-<!-- ✅ Sidebar -->
+<!--  Sidebar -->
 <div id="sidebar">
   <span class="closebtn" onclick="toggleMenu()">×</span>
   <a href="admin-dashboard.php">👤 User Management</a>
@@ -217,9 +217,9 @@ main h2 {
   </form>
 </div>
 
-<!-- ✅ Main Content -->
+<!-- Main Content -->
 <main>
-  <h2>📊 Flood & Rainfall History</h2>
+  <h2>Flood & Rainfall History</h2>
 
   <section class="content-card">
     <h3>Recent Records</h3>
@@ -264,7 +264,7 @@ main h2 {
   </section>
 </main>
 
-<!-- ✅ Sidebar Toggle Script -->
+<!--  Sidebar Toggle Script -->
 <script>
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");

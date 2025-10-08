@@ -24,7 +24,7 @@ $resend_cooldown = 30; // seconds
 $max_otp_attempts = 5;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 🔄 Resend OTP flow
+    //  Resend OTP flow
     if (isset($_POST['resend'])) {
         if (isset($_SESSION['otp_last_sent']) && (time() - $_SESSION['otp_last_sent']) < $resend_cooldown) {
             $remaining = $resend_cooldown - (time() - $_SESSION['otp_last_sent']);
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Generate new OTP
                 $otp_plain = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-                $otp_hash  = password_hash($otp_plain, PASSWORD_DEFAULT); // ✅ store hash
+                $otp_hash  = password_hash($otp_plain, PASSWORD_DEFAULT); //  store hash
                 $expiry    = date("Y-m-d H:i:s", time() + 300);
 
                 $up = $conn->prepare("UPDATE users SET otp=?, otp_expiry=? WHERE id=?");
@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($ok && sendOtpMail($u['email'], $u['fullname'], $otp_plain)) {
                     $_SESSION['otp_last_sent'] = time();
                     $_SESSION['otp_attempts'] = 0;
-                    $message = "✅ OTP resent. Check your email.";
+                    $message = "OTP resent. Check your email.";
                 } else {
-                    $message = "⚠️ Unable to resend OTP. Check SMTP settings or try later.";
+                    $message = "Unable to resend OTP. Check SMTP settings or try later.";
                 }
                 $up->close();
             } else {
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $s->close();
         }
     } else {
-        // 🔐 Verify OTP flow
+        //  Verify OTP flow
         $entered = trim($_POST['otp'] ?? '');
         if (!preg_match('/^\d{6}$/', $entered)) {
             $message = "Enter the 6-digit code sent to your email.";
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($res && $res->num_rows === 1) {
                     $row = $res->fetch_assoc();
 
-                    // ✅ Verify using password_verify
+                    // Verify using password_verify
                     if (password_verify($entered, $row['otp'])) {
                         $clear = $conn->prepare("UPDATE users SET otp=NULL, otp_expiry=NULL WHERE id=?");
                         $clear->bind_param("i", $user_id);
@@ -94,12 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         unset($_SESSION['pending_user_id'], $_SESSION['otp_last_sent'], $_SESSION['otp_attempts']);
 
-                        // ✅ If running on localhost, show success alert
+                        // If running on localhost, show success alert
                         if ($_SERVER['HTTP_HOST'] === 'localhost') {
-                            echo "<script>alert('✅ Successfully logged in'); window.location.href='sensor_data.php';</script>";
+                            echo "<script>alert('Successfully logged in'); window.location.href='sensor_data.php';</script>";
                             exit();
                         } else {
-                            header("Location: admin-dashboard.php");
+                            header("Location: sensor_data.php");
                             exit();
                         }
                     } else {

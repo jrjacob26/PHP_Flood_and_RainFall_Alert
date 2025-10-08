@@ -19,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt) {
         $stmt->bind_param("iis", $rainfall, $flood, $status);
         if ($stmt->execute()) {
-            echo "OK"; // ✅ Success
+            echo "OK"; //  Success
         } else {
-            echo "ERROR: " . $stmt->error; // ❌ Execution failed
+            echo "ERROR: " . $stmt->error; //  Execution failed
         }
         $stmt->close();
     } else {
-        echo "ERROR: " . $conn->error; // ❌ SQL issue
+        echo "ERROR: " . $conn->error; //  SQL issue
     }
 }
 ?>

@@ -1,17 +1,17 @@
 <?php
 include 'db_connect.php';
 
-// ✅ Security key
+//  Security key
 $secretKey = "bahashield123";
 if (!isset($_GET['key']) || $_GET['key'] !== $secretKey) {
     http_response_code(403);
-    echo "❌ Forbidden";
+    echo "Forbidden";
     exit;
 }
 
 header("Content-Type: text/plain");
 
-// ✅ Fetch numbers for both Residents and Barangay Officials
+//  Fetch numbers for both Residents and Barangay Officials
 $sql = "SELECT DISTINCT phone_number FROM alert_recipients WHERE role IN ('Resident', 'Barangay Official')";
 $result = $conn->query($sql);
 

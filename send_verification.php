@@ -111,15 +111,15 @@ try {
 
     $mail->send();
 
-    // ✅ Update email_verified = 1 after successful email sending
+    //  Update email_verified = 1 after successful email sending
     $updStatus = $conn->prepare("UPDATE users SET email_verified = 1 WHERE id = ?");
     $updStatus->bind_param("i", $id);
     $updStatus->execute();
 
-    echo "<script>alert('✅ Email sent to {$user['email']} and status updated to verified');window.location='admin-dashboard.php';</script>";
+    echo "<script>alert('Email sent to {$user['email']} and status updated to verified');window.location='admin-dashboard.php';</script>";
 } catch (Exception $e) {
     $err = addslashes($mail->ErrorInfo);
-    echo "<script>alert('❌ Email failed: {$err}');window.location='admin-dashboard.php';</script>";
+    echo "<script>alert('Email failed: {$err}');window.location='admin-dashboard.php';</script>";
 }
 
 function emailTemplate($title, $html)

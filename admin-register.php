@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm  = $_POST['confirm'];
 
     if ($password !== $confirm) {
-        $message = "❌ Passwords do not match!";
+        $message = "Passwords do not match!";
     } else {
         // Email check
         $checkEmail = $conn->prepare("SELECT id FROM users WHERE email=?");
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkEmail->execute();
         $resultEmail = $checkEmail->get_result();
         if ($resultEmail->num_rows > 0) {
-            $message = "❌ Email already exists!";
+            $message = "Email already exists!";
         }
         $checkEmail->close();
 
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $checkNumber->execute();
             $resultNumber = $checkNumber->get_result();
             if ($resultNumber->num_rows > 0) {
-                $message = "❌ Mobile Number already exists!";
+                $message = "Mobile Number already exists!";
             }
             $checkNumber->close();
         }
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 $success = true;
             } else {
-                $message = "❌ Error: " . $stmt->error;
+                $message = "Error: " . $stmt->error;
             }
             $stmt->close();
         }
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <?php if ($success): ?>
   <script>
-    alert("✅ Admin registered successfully!");
+    alert("Admin registered successfully!");
     window.location.href = "admin-login.php";
   </script>
   <?php endif; ?>

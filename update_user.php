@@ -17,14 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role     = trim($_POST['role']);
     $purok    = intval($_POST['purok']);
 
-    // ✅ Check for duplicate email
+    //  Check for duplicate email
     $checkEmail = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
     $checkEmail->bind_param("si", $email, $id);
     $checkEmail->execute();
     $checkEmail->store_result();
     if ($checkEmail->num_rows > 0) {
         echo "<script>
-                alert('⚠️ This email is already registered to another user. Please use a different one.');
+                alert('This email is already registered to another user. Please use a different one.');
                 window.location.href = 'admin-dashboard.php';
               </script>";
         $checkEmail->close();
@@ -32,14 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $checkEmail->close();
 
-    // ✅ Check for duplicate mobile number
+    //  Check for duplicate mobile number
     $checkNumber = $conn->prepare("SELECT id FROM users WHERE number = ? AND id != ?");
     $checkNumber->bind_param("si", $number, $id);
     $checkNumber->execute();
     $checkNumber->store_result();
     if ($checkNumber->num_rows > 0) {
         echo "<script>
-                alert('⚠️ This mobile number is already registered to another user. Please use a different number.');
+                alert('This mobile number is already registered to another user. Please use a different number.');
                 window.location.href = 'admin-dashboard.php';
               </script>";
         $checkNumber->close();
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $checkNumber->close();
 
-    // ✅ Update without username
+    //  Update without username
     $stmt = $conn->prepare("UPDATE users SET fullname=?, email=?, number=?, role=?, purok=? WHERE id=?");
     $stmt->bind_param("ssssii", $fullname, $email, $number, $role, $purok, $id);
 
@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         echo "<script>
-                alert('✅ User updated successfully!');
+                alert('User updated successfully!');
                 window.location.href = 'admin-dashboard.php';
               </script>";
     } else {
         echo "<script>
-                alert('❌ Something went wrong while updating. Please try again.');
+                alert('Something went wrong while updating. Please try again.');
                 window.location.href = 'admin-dashboard.php';
               </script>";
     }
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 } else {
     echo "<script>
-            alert('⚠️ Invalid request!');
+            alert('Invalid request!');
             window.location.href = 'admin-dashboard.php';
           </script>";
     exit();

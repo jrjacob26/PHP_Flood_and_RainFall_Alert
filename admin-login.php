@@ -27,7 +27,7 @@ if ($_SESSION['login_attempts'] >= $max_attempts) {
     $time_since_last_attempt = time() - $_SESSION['last_attempt_time'];
     if ($time_since_last_attempt < $lock_time) {
         $remaining = $lock_time - $time_since_last_attempt;
-        $message = "⛔ Too many attempts! Please wait $remaining seconds.";
+        $message = "Too many attempts! Please wait $remaining seconds.";
     } else {
         $_SESSION['login_attempts'] = 0;
     }
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($message)) {
             $otp_hash = password_hash($otp_plain, PASSWORD_DEFAULT);
             $expiry = date("Y-m-d H:i:s", time() + 300); // 5 minutes
 
-            // 🔎 Debug log for testing
+            //  Debug log for testing
             error_log("OTP for {$user['email']} = $otp_plain, expiry = $expiry");
 
             // Save hashed OTP and expiry to DB
@@ -62,12 +62,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($message)) {
             $update->close();
 
             if (!$ok) {
-                $message = "⚠️ Server error. Try again later.";
+                $message = "Server error. Try again later.";
             } else {
                 // Send OTP email
                 $sent = sendOtpMail($user['email'], $user['fullname'], $otp_plain);
                 if (!$sent) {
-                    $message = "⚠️ Couldn't send OTP email. Check SMTP settings.";
+                    $message = "Couldn't send OTP email. Check SMTP settings.";
                 } else {
                     // Store pending login info and redirect to OTP page
                     $_SESSION['pending_user_id'] = $user['id'];
@@ -82,13 +82,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($message)) {
             $_SESSION['last_attempt_time'] = time();
             $remaining_attempts = max(0, $max_attempts - $_SESSION['login_attempts']);
             $message = $remaining_attempts > 0 ? 
-                "❌ Incorrect password! You have $remaining_attempts attempt(s) left." :
-                "⛔ Too many failed attempts. Please wait $lock_time seconds.";
+                "Incorrect password! You have $remaining_attempts attempt(s) left." :
+                "Too many failed attempts. Please wait $lock_time seconds.";
         }
     } else {
         $_SESSION['login_attempts']++;
         $_SESSION['last_attempt_time'] = time();
-        $message = "❌ Admin not found!";
+        $message = "Admin not found!";
     }
     if (isset($stmt)) $stmt->close();
 }
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($message)) {
       const icon = document.querySelector(".toggle-password");
       if (passInput.type === "password") {
         passInput.type = "text";
-        icon.textContent = "🙈";
+        icon.textContent = "";
       } else {
         passInput.type = "password";
         icon.textContent = "👁";

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "<script>alert('❌ Email or Mobile Number already exists!'); 
+        echo "<script>alert('Email or Mobile Number already exists!'); 
               window.location.href='admin-dashboard.php';</script>";
         exit();
     }
@@ -44,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $stmt->bind_param("ssssisss", $fullname, $email, $number, $role, $purok, $password, $verification_token, $unsubscribe_token);
 
     if ($stmt->execute()) {
-        echo "<script>alert('✅ User added successfully!'); 
+        echo "<script>alert('User added successfully!'); 
               window.location.href = 'admin-dashboard.php';</script>";
         exit();
     } else {
-        echo "<script>alert('❌ Failed to add user: " . addslashes($stmt->error) . "'); 
+        echo "<script>alert('Failed to add user: " . addslashes($stmt->error) . "'); 
               window.location.href = 'admin-dashboard.php';</script>";
         exit();
     }
@@ -66,22 +66,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && in_array
         echo "<script>alert('✅ $msg'); window.location.href='admin-dashboard.php';</script>";
         exit();
     } else {
-        echo "<script>alert('❌ Failed to update subscription!'); window.location.href='admin-dashboard.php';</script>";
+        echo "<script>alert('Failed to update subscription!'); window.location.href='admin-dashboard.php';</script>";
         exit();
     }
 }
 
-// ✅ Fetch all users
+//  Fetch all users
 $sql = "SELECT * FROM users ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
-// ✅ Analytics counts
+//  Analytics counts
 $totalUsers       = $conn->query("SELECT COUNT(*) as total FROM users")->fetch_assoc()['total'];
 $totalOfficials   = $conn->query("SELECT COUNT(*) as total FROM users WHERE role='Barangay Official'")->fetch_assoc()['total'];
 $totalResidents   = $conn->query("SELECT COUNT(*) as total FROM users WHERE role='Resident'")->fetch_assoc()['total'];
 $newThisMonth     = $conn->query("SELECT COUNT(*) as total FROM users WHERE MONTH(created_at)=MONTH(CURRENT_DATE()) AND YEAR(created_at)=YEAR(CURRENT_DATE())")->fetch_assoc()['total'];
 
-// ✅ SENSOR DATA HANDLING
+//  SENSOR DATA HANDLING
 date_default_timezone_set('Asia/Manila');
 $currentDateTime = date("Y-m-d H:i:s");
 $sensorMessage = "";
@@ -114,11 +114,7 @@ if (isset($_GET['water']) && isset($_GET['rain'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BahaShield - Admin Dashboard</title>
   <style>
-      /* ================================
-   🌊 BahaShield - Unified Admin Dashboard CSS
-   Matches sensor.php header + logout style
-=================================== */
-
+      
 * {
   margin: 0;
   padding: 0;
@@ -132,7 +128,6 @@ body {
   min-height: 100vh;
 }
 
-/* ✅ Header — SAME AS sensor.php */
 header {
       background: #2563eb;
       color: white;
@@ -163,7 +158,6 @@ header {
   font-weight: bold;
 }
 
-/* ✅ Logout Button — MATCHES sensor.php */
 .logout-btn {
   background: transparent;
   border: 1px solid white;
@@ -180,7 +174,6 @@ header {
   color: #2563eb;
 }
 
-/* ✅ Sidebar */
 #sidebar {
       height: 100%;
       width: 0;
@@ -220,7 +213,6 @@ header {
       cursor: pointer;
 }
 
-/* ✅ Main Content */
 main {
   padding: 20px;
   max-width: 1400px;
@@ -234,7 +226,7 @@ h2 {
   
 }
 
-/* ✅ Controls */
+/*  Controls */
 .controls {
   display: flex;
   justify-content: space-between;
@@ -261,7 +253,7 @@ select {
   border: 1px solid #ccc;
 }
 
-/* ✅ Buttons */
+/*  Buttons */
 button, .btn {
   border: none;
   cursor: pointer;
@@ -316,7 +308,7 @@ button, .btn {
   background: #333;
 }
 
-/* ✅ Table */
+/*  Table */
 .table-container {
   background: #fff;
   border-radius: 10px;
@@ -347,7 +339,7 @@ tr:hover {
   background-color: #f8f9fa;
 }
 
-/* ✅ Badges */
+/*  Badges */
 .badge {
   display: inline-block;
   padding: 3px 8px;
@@ -360,7 +352,7 @@ tr:hover {
 .badge.red   { background: #d62828; }
 .badge.gray  { background: #999; }
 
-/* ✅ Modal Styles */
+/*  Modal Styles */
 .modal {
   display: none;
   position: fixed;
@@ -429,7 +421,7 @@ tr:hover {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ✅ Analytics Cards */
+/*  Analytics Cards */
 .analytics > div {
   transition: transform 0.2s;
 }
@@ -448,21 +440,21 @@ tr:hover {
   <span class="admin-name">Welcome, <?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
 </header>
 
-<!-- ✅ Sidebar -->
+<!--  Sidebar -->
 <div id="sidebar">
   <span class="closebtn" onclick="toggleMenu()">×</span>
-  <a href="admin-dashboard.php">👤 User Management</a>
-  <a href="flood_history.php">📊 Flood & Rainfall History</a>
-  <a href="sensor_data.php" class="active">📡 Sensor Data & Analytics</a>
-  <a href="send_message.php">💬 Send SMS</a>
+  <a href="admin-dashboard.php"> User Management</a>
+  <a href="flood_history.php"> Flood & Rainfall History</a>
+  <a href="sensor_data.php" class="active"> Sensor Data & Analytics</a>
+  <a href="send_message.php"> Send SMS</a>
   <form method="POST" action="logout.php" onsubmit="return confirm('Logout?');">
-    <button type="submit">🚪 Logout</button>
+    <button type="submit"> Logout</button>
   </form>
 </div>
 
 <script>
 function confirmLogout() {
-    return confirm("⚠️ Are you sure you want to logout?");
+    return confirm("Are you sure you want to logout?");
 }
 </script>
 </div>
@@ -470,35 +462,35 @@ function confirmLogout() {
 <main>
   <h2>User Management</h2>
 
-  <!-- ✅ Analytics Section -->
+  <!--  Analytics Section -->
   <div class="analytics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:20px;">
     <div style="background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-      👥 <h3><?php echo $totalUsers; ?></h3>
+      <h3><?php echo $totalUsers; ?></h3>
       <p>Total Users</p>
     </div>
     <div style="background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-      👮 <h3><?php echo $totalOfficials; ?></h3>
+      <h3><?php echo $totalOfficials; ?></h3>
       <p>Barangay Officials</p>
     </div>
     <div style="background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-      🏠 <h3><?php echo $totalResidents; ?></h3>
+      <h3><?php echo $totalResidents; ?></h3>
       <p>Residents</p>
     </div>
     <div style="background:#fff;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-      📅 <h3><?php echo $newThisMonth; ?></h3>
+      <h3><?php echo $newThisMonth; ?></h3>
       <p>New This Month</p>
     </div>
   </div>
 
-  <!-- ✅ Controls -->
+  <!--  Controls -->
   <div class="controls">
     <div class="controls-left">
       <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Search users...">
+        <input type="text" id="searchInput" placeholder="Search users...">
       </div>
       <button class="add-btn" onclick="openAddModal()">+ Add User</button>
-      <button class="btn export" onclick="exportTableToCSV()">📄 Export CSV</button>
-      <button class="btn export" onclick="printTable()">🖨️ Print / PDF</button>
+      <button class="btn export" onclick="exportTableToCSV()">Export CSV</button>
+      <button class="btn export" onclick="printTable()">Print / PDF</button>
     </div>
     <div class="role-filter">
       <select id="roleFilter">
@@ -509,7 +501,7 @@ function confirmLogout() {
     </div>
   </div>
 
-  <!-- ✅ User Table -->
+  <!--  User Table -->
   <div class="table-container">
     <table id="userTable">
       <thead>
@@ -567,7 +559,7 @@ function confirmLogout() {
                   <?php echo ((int)($row['email_verified'] ?? 0) === 1) ? "'notify'" : "'verify'"; ?>
                 )">Email</button>
 
-              <!-- ✅ Subscription toggle -->
+              <!--  Subscription toggle -->
               <form method="POST" action="admin-dashboard.php" style="display:inline;" 
                     onsubmit="return confirm('Are you sure you want to change subscription status?');">
                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
@@ -593,7 +585,7 @@ function confirmLogout() {
   </div>
 </main>
 
-<!-- ✅ Add User Modal -->
+<!--  Add User Modal -->
 <div class="modal" id="addModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeAddModal()">&times;</span>
@@ -624,7 +616,7 @@ function confirmLogout() {
   </div>
 </div>
 
-<!-- ✅ Edit User Modal -->
+<!--  Edit User Modal -->
 <div class="modal" id="editModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeEditModal()">&times;</span>
@@ -654,7 +646,7 @@ function confirmLogout() {
   </div>
 </div>
 
-<!-- ✅ Email Modal -->
+<!--  Email Modal -->
 <div class="modal" id="emailModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeEmailModal()">&times;</span>
@@ -684,7 +676,7 @@ function confirmLogout() {
 </div>
 
 <script>
-// 🔍 Search
+//  Search
 document.getElementById("searchInput").addEventListener("keyup", function() {
   let value = this.value.toLowerCase();
   let rows = document.querySelectorAll("#userTable tbody tr");
@@ -693,7 +685,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
   });
 });
 
-// 🔎 Role Filter
+//  Role Filter
 document.getElementById("roleFilter").addEventListener("change", function() {
   let role = this.value.toLowerCase();
   let rows = document.querySelectorAll("#userTable tbody tr");
@@ -703,7 +695,7 @@ document.getElementById("roleFilter").addEventListener("change", function() {
   });
 });
 
-// 📄 Export CSV
+//  Export CSV
 function downloadCSV(csv, filename) {
   let csvFile = new Blob([csv], { type: "text/csv" });
   let downloadLink = document.createElement("a");
@@ -749,10 +741,10 @@ function printTable() {
       <body>
         <h2>User Management Report</h2>
         <p class="summary">
-          👥 Total Users: <?php echo $totalUsers; ?> &nbsp; | 
-          👮 Officials: <?php echo $totalOfficials; ?> &nbsp; | 
-          🏠 Residents: <?php echo $totalResidents; ?> &nbsp; | 
-          📅 New This Month: <?php echo $newThisMonth; ?>
+           Total Users: <?php echo $totalUsers; ?> &nbsp; | 
+           Officials: <?php echo $totalOfficials; ?> &nbsp; | 
+           Residents: <?php echo $totalResidents; ?> &nbsp; | 
+           New This Month: <?php echo $newThisMonth; ?>
         </p>
         ${table.outerHTML}
       </body>
@@ -762,7 +754,7 @@ function printTable() {
   newWin.print();
 }
 
-// 🟢 Modals
+//  Modals
 function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
 function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
 
@@ -800,7 +792,7 @@ window.onclick = function(event) {
   if (event.target == document.getElementById('emailModal')) closeEmailModal();
 }
 
-// ✅ Sidebar Toggle
+//  Sidebar Toggle
 function toggleMenu() {
   let sidebar = document.getElementById("sidebar");
   sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
@@ -812,7 +804,7 @@ window.addEventListener("click", function(event) {
   }
 });
 
-// ✅ Prevent back button after logout
+//  Prevent back button after logout
 window.addEventListener("pageshow", function (event) {
   if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
     window.location.reload();

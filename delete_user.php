@@ -18,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        $_SESSION['message'] = "✅ User deleted successfully!";
+        $_SESSION['message'] = "User deleted successfully!";
     } else {
-        $_SESSION['message'] = "❌ Error deleting user!";
+        $_SESSION['message'] = "Error deleting user!";
     }
 
     $stmt->close();
 } else {
-    $_SESSION['message'] = "⚠️ Invalid request!";
+    $_SESSION['message'] = "Invalid request!";
 }
 
 $conn->close();

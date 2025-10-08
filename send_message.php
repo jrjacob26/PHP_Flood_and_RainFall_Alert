@@ -2,13 +2,13 @@
 session_start();
 include 'db_connect.php';
 
-// ✅ Only allow Barangay Officials
+//  Only allow Barangay Officials
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
     header("Location: login.php");
     exit();
 }
 
-// ✅ Status messages
+//  Status messages
 $success = $_SESSION['success'] ?? '';
 $error   = $_SESSION['error'] ?? '';
 unset($_SESSION['success'], $_SESSION['error']);
@@ -20,9 +20,7 @@ unset($_SESSION['success'], $_SESSION['error']);
   <meta charset="UTF-8">
   <title>Send SMS - BahaShield</title>
   <style>
-    /* 🌊 BahaShield - Send SMS Page CSS */
 
-    /* ✅ Global Reset */
     * {
       margin: 0;
       padding: 0;
@@ -35,7 +33,6 @@ unset($_SESSION['success'], $_SESSION['error']);
       min-height: 100vh;
     }
 
-    /* ✅ Header */
     header {
       background: #2563eb;
       color: white;
@@ -65,7 +62,6 @@ unset($_SESSION['success'], $_SESSION['error']);
       font-weight: bold;
     }
 
-    /* ✅ Sidebar */
     #sidebar {
       height: 100%;
       width: 0;
@@ -107,7 +103,6 @@ unset($_SESSION['success'], $_SESSION['error']);
       cursor: pointer;
     }
 
-    /* ✅ Main Content */
     main {
       max-width: 600px;
       margin: 30px auto;
@@ -120,7 +115,6 @@ unset($_SESSION['success'], $_SESSION['error']);
       
     }
 
-    /* ✅ Alert Messages */
     .alert {
       padding: 10px;
       border-radius: 5px;
@@ -184,7 +178,6 @@ unset($_SESSION['success'], $_SESSION['error']);
       background: #1e3a8a;
     }
 
-    /* ✅ Responsive */
     @media (max-width: 600px) {
       main {
         margin: 15px;
@@ -194,7 +187,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 </head>
 <body>
 
-<!-- ✅ Header -->
+<!--  Header -->
 <header>
   <div class="header-left">
     <div class="menu-icon" onclick="toggleMenu()">☰</div>
@@ -203,21 +196,21 @@ unset($_SESSION['success'], $_SESSION['error']);
   <span class="admin-name">Welcome, <?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
 </header>
 
-<!-- ✅ Sidebar -->
+<!--  Sidebar -->
 <div id="sidebar">
   <span class="closebtn" onclick="toggleMenu()">×</span>
-  <a href="admin-dashboard.php">👤 User Management</a>
-  <a href="flood_history.php">📊 Flood & Rainfall History</a>
-  <a href="sensor_data.php">📡 Sensor Data & Analytics</a>
-  <a href="send_message.php" class="active">💬 Send SMS</a>
+  <a href="admin-dashboard.php"> User Management</a>
+  <a href="flood_history.php"> Flood & Rainfall History</a>
+  <a href="sensor_data.php"> Sensor Data & Analytics</a>
+  <a href="send_message.php" class="active"> Send SMS</a>
   <form method="POST" action="logout.php" onsubmit="return confirm('Logout?');">
-    <button type="submit">🚪 Logout</button>
+    <button type="submit"> Logout</button>
   </form>
 </div>
 
-<!-- ✅ Main Content -->
+<!--  Main Content -->
 <main>
-  <h2>📊 Flood & Rainfall History</h2>
+  <h2>Flood & Rainfall History</h2>
 
   <section class="content-card">
     <?php if ($success): ?>
@@ -243,19 +236,19 @@ unset($_SESSION['success'], $_SESSION['error']);
       <label>Message:</label>
       <textarea name="message" id="message" placeholder="Type your alert message..." required></textarea>
 
-      <button type="submit" class="primary-btn">🚀 Send SMS</button>
+      <button type="submit" class="primary-btn">Send SMS</button>
     </form>
   </section>
 </main>
 
 <script>
-  // ✅ Toggle Sidebar Menu
+  //  Toggle Sidebar Menu
   function toggleMenu() {
     const sidebar = document.getElementById("sidebar");
     sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
   }
 
-  // ✅ Recipient select toggle
+  //  Recipient select toggle
   const recipientSelect = document.getElementById('recipient_type');
   const specificField = document.getElementById('specific-number-field');
 
