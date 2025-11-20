@@ -308,8 +308,9 @@ button, .btn {
   background: #333;
 }
 
-/*  Table */
+/* Table Container */
 .table-container {
+  width: 100%;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -317,27 +318,54 @@ button, .btn {
   margin-top: 15px;
 }
 
+/* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  table-layout: auto; /* columns adjust to content */
 }
 
+/* Table Header and Cells */
 th, td {
-  padding: 10px;
+  padding: 10px 12px;
   text-align: left;
   border-bottom: 1px solid #eaeaea;
+  word-wrap: break-word;
 }
 
+/* Header Style */
 th {
   background-color: #f0f2f5;
   color: #333;
   font-weight: 600;
+  text-align: left;
 }
 
+/* Hover Effect */
 tr:hover {
   background-color: #f8f9fa;
 }
+
+/* Last Column (Action Buttons) */
+th:last-child, td:last-child {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Buttons inside Table Cells */
+td > form, td > button {
+  display: inline-block;
+  margin: 2px 2px 2px 0;
+}
+
+td > form button, td > button {
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
 
 /*  Badges */
 .badge {

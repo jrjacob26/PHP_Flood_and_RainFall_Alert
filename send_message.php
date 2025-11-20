@@ -12,6 +12,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Barangay Official') {
 $success = $_SESSION['success'] ?? '';
 $error   = $_SESSION['error'] ?? '';
 unset($_SESSION['success'], $_SESSION['error']);
+
+// Default SMS template (editable in the form)
+$default_sms = "⚠️ RAIN AND FLOOD ALERT
+Barangay Cabangan, Legazpi City
+
+🌧 Rain Intensity: 45 mm
+💧 Water Level: 32 cm — Status: DANGER
+
+Please stay alert and follow barangay safety instructions. 
+Secure your belongings and be ready to evacuate if necessary.
+
+📅 October 9, 2025 | 🕒 3:45 PM
+– BahaShield Monitoring Team
+
+To stop receiving alerts, click here and replace <YOUR_EMAIL> with your registered email:
+http://localhost/Flood_and_RainFall_System/unsubscribe.php?email=<YOUR_EMAIL>";
 ?>
 
 <!DOCTYPE html>
@@ -160,7 +176,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
     .modern-form textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 120px;
     }
 
     .primary-btn {
@@ -210,7 +226,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
 <!--  Main Content -->
 <main>
-  <h2>Flood & Rainfall History</h2>
+  <h2>Send SMS Alert</h2>
 
   <section class="content-card">
     <?php if ($success): ?>
@@ -234,7 +250,7 @@ unset($_SESSION['success'], $_SESSION['error']);
       </div>
 
       <label>Message:</label>
-      <textarea name="message" id="message" placeholder="Type your alert message..." required></textarea>
+      <textarea name="message" id="message" placeholder="Type your alert message..." required><?= htmlspecialchars($default_sms) ?></textarea>
 
       <button type="submit" class="primary-btn">Send SMS</button>
     </form>
